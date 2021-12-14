@@ -13,9 +13,8 @@ class CreateDeviceVerificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_verification', function (Blueprint $table) {
+        Schema::create('device_verifications', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
             $table->string('ip_address');
         });
     }

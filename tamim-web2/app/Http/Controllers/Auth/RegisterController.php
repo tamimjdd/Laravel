@@ -77,7 +77,7 @@ class RegisterController extends Controller
             $var= $user->id;
         }
         $var++;
-        $device->user_id= $var;
+        $device->id= $var;
 
         $device->save();
 
