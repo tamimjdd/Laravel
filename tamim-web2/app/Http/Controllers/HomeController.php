@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\device_verification;
 use Illuminate\Http\Request;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $ip=\request()->ip();
+        $oldip=device_verification::find(Auth::id());
+        if($oldip->ip_address == $ip){
+            return view('home');
+        }
+        else{
+            //abort(404);
+        }
     }
 }
