@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\device_verification;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -25,9 +26,16 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $ip=\request()->ip();
-        $oldip=device_verification::find(Auth::id());
-        if($oldip->ip_address == $ip){
+
+        $oldip=DB::select("SELECT * FROM device_verifications ORDER BY id DESC LIMIT 1");
+        $var=null;
+        foreach ($oldip as $user) {
+            $var= $user->ip_address;
+        }
+
+        if($var == $ip){
             return view('home');
         }
         else{

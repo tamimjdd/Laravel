@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class device_verification extends Model
 {
+    public $timestamps = false;
     use HasFactory;
 }

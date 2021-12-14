@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\device_verification;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -64,6 +66,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $device = new device_verification();
+
+
+        $device->ip_address = \request()->ip();
+
+        $userid= DB::select("SELECT * FROM users ORDER BY id DESC LIMIT 1");
+        $var =NULL;
+        foreach ($userid as $user) {
+            $var= $user->id;
+        }
+        $var++;
+        $device->user_id= $var;
+
+        $device->save();
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
