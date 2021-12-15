@@ -16,6 +16,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('usermid');
     }
 
     /**
@@ -26,15 +27,15 @@ class HomeController extends Controller
     public function index()
     {
 
-        $ip=\request()->ip();
+        // $ip=\request()->ip();
 
-        $oldip=device_verification::find(Auth::id());
+        // $oldip=device_verification::find(Auth::id());
         //dd($oldip->ip_address);
-        if($oldip->ip_address == $ip){
+        // if($oldip->ip_address == $ip){
             return view('home');
-        }
-        else{
+        // }
+        // else{
             //abort(404);
-        }
+        // }
     }
 }
