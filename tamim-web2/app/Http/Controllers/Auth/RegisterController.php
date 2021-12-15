@@ -71,12 +71,13 @@ class RegisterController extends Controller
 
         $device->ip_address = \request()->ip();
 
-        $userid= DB::select("SELECT * FROM users ORDER BY id DESC LIMIT 1");
+        $userid= DB::select("SELECT `auto_increment` FROM INFORMATION_SCHEMA.TABLES
+        WHERE table_name = 'device_verifications'
+        ");
         $var =NULL;
         foreach ($userid as $user) {
-            $var= $user->id;
+            $var= $user->auto_increment;
         }
-        $var++;
         $device->id= $var;
 
         $device->save();
