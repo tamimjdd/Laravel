@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\AuthorizeDevice;
 use Stevebauman\Location\Facades\Location;
 use App\Models\device_verification;
+use DB;
+
+
 class UserMid
 {
     /**
@@ -19,18 +22,22 @@ class UserMid
      */
     public function handle(Request $request, Closure $next)
     {
-         $ip=\request()->ip();
-
-        $oldip=device_verification::find(Auth::id());
 
 
-        if($oldip->ip_address != $ip){
+
+        $ip=\request()->ip();
+         //dd("yes");
+        $oldip=DB::select('select ip_address from device_verifications where usr_id = ?', [Auth::id()]);
+
+        //dd($oldip[0]->ip_address);
+
+        if($oldip[0]->ip_address != $ip){
             $location= Location::get();
             $rand=rand(0, 99999);
 
-            $flight = device_verification::find(Auth::id());
-            $flight->reg_id = $rand;
-            $flight->save();
+            $flight = device_verification::where('usr_id', Auth::id())->first();
+            device_verification::where('usr_id', Auth::id())
+            ->update(['reg_id' => $rand]);
 
             $authorize = [
                 'ip_address' => \Request::ip(),

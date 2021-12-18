@@ -9,4 +9,11 @@ class device_verification extends Model
 {
     public $timestamps = false;
     use HasFactory;
+
+    protected $fillable = [
+        'usr_id',
+        'ip_address',
+        'reg_id'
+    ];
+
 }

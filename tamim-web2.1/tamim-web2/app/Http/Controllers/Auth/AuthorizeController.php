@@ -26,13 +26,13 @@ class AuthorizeController extends Controller
     public function verify(Request $request)
     {
         //dd("yew");
-        $flight = device_verification::find(Auth::id());
+        $flight = device_verification::where('usr_id', Auth::id())->first();
         $input_code=$request->input('code');
         if ($flight->reg_id == $input_code) {
 
             $ip=\request()->ip();
-            $flight->ip_address = $ip;
-            $flight->save();
+            device_verification::where('usr_id', Auth::id())
+            ->update(['ip_address' => $ip]);
 
             return redirect('home')->with('status', 'Awesome ! you are now authorized !');
         }

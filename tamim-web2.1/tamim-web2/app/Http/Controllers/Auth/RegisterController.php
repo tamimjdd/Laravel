@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class RegisterController extends Controller
 {
@@ -66,26 +67,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $device = new device_verification();
-
-
-        $device->ip_address = \request()->ip();
 
         $userid= DB::select("SELECT `auto_increment` FROM INFORMATION_SCHEMA.TABLES
-        WHERE table_name = 'device_verifications'
+        WHERE table_name = 'users'
         ");
         $var =NULL;
         foreach ($userid as $user) {
             $var= $user->auto_increment;
         }
-        $device->id= $var;
 
-        $device->save();
 
-        return User::create([
+        $device = new device_verification();
+
+        $device->usr_id=$var;
+        $device->ip_address = \request()->ip();
+        $device->reg_id=NULL;
+
+        $newuser=User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $device->save();
+        return $newuser;
     }
 }

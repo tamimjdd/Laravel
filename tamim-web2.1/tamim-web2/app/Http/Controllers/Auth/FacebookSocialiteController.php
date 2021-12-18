@@ -8,6 +8,7 @@ use Auth;
 use Exception;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
+use App\Models\device_verification;
 
 class FacebookSocialiteController extends Controller
 {
@@ -33,7 +34,7 @@ class FacebookSocialiteController extends Controller
 
 
             $user = Socialite::driver('google')->user();
-
+            //dd("yes");
             $finduser = User::where('email', $user->email)->first();
 
             if($finduser){
@@ -43,6 +44,7 @@ class FacebookSocialiteController extends Controller
                 return redirect('/home');
 
             }else{
+
                 $user2 = new User;
                 $user2->name = $user->name;
                 $user2->email = $user->email;
@@ -51,6 +53,13 @@ class FacebookSocialiteController extends Controller
                 $user2->password = bcrypt($user2->name);
                 $user2->save();
 
+                $finduser2 = User::where('email', $user->email)->first();
+                $device = new device_verification();
+
+                $device->usr_id=$finduser2->id;
+                $device->ip_address = \request()->ip();
+                $device->reg_id=NULL;
+                $device->save();
 
                 Auth::login($user2);
 
