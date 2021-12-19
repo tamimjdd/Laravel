@@ -28,7 +28,7 @@
                             onclick="event.preventDefault(); document.getElementById('resend-verification-form').submit();">{{ __('click here to request another') }}</a>.
                     </p>
 
-                    <form id="resend-verification-form" method="POST" action="{{ route('verification.resend') }}"
+                    <form id="resend-verification-form" method="POST" action="{{ route('verification.send') }}"
                         class="hidden">
                         @csrf
                     </form>
