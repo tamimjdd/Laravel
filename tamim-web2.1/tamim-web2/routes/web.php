@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\AuthorizeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\FacebookSocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\PostsController;
+use App\Http\Controllers\ProfilesController;
 use Illuminate\Http\Request;
 
 /*
@@ -21,9 +23,10 @@ use Illuminate\Http\Request;
 Route::get('/', function () {
     return view('welcome');
 });
-
+//login with google routes
 Route::get('/auth/google', [\App\Http\Controllers\Auth\FacebookSocialiteController::class, 'redirectToFB'])->name('autho');
 Route::get('/callback/google', [\App\Http\Controllers\Auth\FacebookSocialiteController::class, 'handleCallback']);
+//login with google routes ends
 
 Auth::routes();
 
@@ -31,6 +34,8 @@ Auth::routes();
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
 
+
+// device verification routes
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/authorize/device', [
         'name' => 'Authorize Login',
@@ -44,8 +49,9 @@ Route::group(['middleware' => ['auth']], function () {
         'uses' => '\App\Http\Controllers\Auth\AuthorizeController@resend',
     ]);
 });
+//device verification routes ends
 
-
+//Email verificaiton routes
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
@@ -61,3 +67,13 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+//Email verification routes ends
+
+
+//profiles routes
+Route::get('/profile/{user}',[\App\Http\Controllers\ProfilesController::class, 'index']);
+
+Route::get('/p/create',[\App\Http\Controllers\PostsController::class, 'create']);
+
+Route::post('/p',[\App\Http\Controllers\PostsController::class, 'store']);
+//profiles routes ends
