@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Models\Post;
+use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
@@ -31,16 +32,21 @@ class PostsController extends Controller
         $newImageName= uniqid(). '-'. $request->title.'.' .
         $request->image->extension();
         //dd($newImageName);
+        //$image2= $request->file('image');
+        //dd($image2);
         $request->image->move(public_path() . '/images/',$newImageName);
         //dd("yes");
+        $image=Image::make(public_path() . '/images/'.$newImageName);
+        $image->resize(1200,1200);
+        $image->save();
+
         $slug = SlugService::createSlug(Post::class, 'slug',
         $request->title);
-
+        //dd($slug);
         auth()->user()->posts()->create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'slug' => SlugService::createSlug(Post::class, 'slug',
-            $request->title),
+            'slug' => $slug,
             'image_path' => $newImageName,
             'user_id' => auth()->user()->id
         ]);
@@ -48,4 +54,10 @@ class PostsController extends Controller
         return redirect('/profile/'.auth()->user()->id);
 
     }
+
+    public function show(\App\Models\Post $post){
+        return view('posts.show', compact('post'));
+    }
+
+
 }

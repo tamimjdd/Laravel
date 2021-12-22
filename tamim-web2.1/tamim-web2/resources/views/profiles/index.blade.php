@@ -44,9 +44,10 @@
         <div class="inline-grid grid-cols-3 gap-4">
             @foreach($user->posts as $post)
                 <div class="pt-4">
-                    {{-- <a href="/p/{{$post->id}}"> --}}
+                    <a href="/p/{{$post->id}}">
                         <img src="{{ asset('images/' . $post->image_path) }}" class="w-4/5">
-                    {{-- </a> --}}
+                        <div class="h4">{{$post->title}}</div >
+                    </a>
                 </div>
             @endforeach
 

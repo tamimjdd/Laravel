@@ -75,5 +75,8 @@ Route::get('/profile/{user}',[\App\Http\Controllers\ProfilesController::class, '
 
 Route::get('/p/create',[\App\Http\Controllers\PostsController::class, 'create']);
 
+Route::get('/p/{post}',[\App\Http\Controllers\PostsController::class, 'show']);
+
+
 Route::post('/p',[\App\Http\Controllers\PostsController::class, 'store']);
 //profiles routes ends

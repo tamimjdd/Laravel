@@ -11920,10 +11920,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 20rem;
 }
 
-.w-6 {
-  width: 1.5rem;
-}
-
 .flex-initial {
   flex: 0 1 auto;
 }
