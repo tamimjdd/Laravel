@@ -5,3 +5,11 @@
 @import "tailwindcss/utilities";
 
 
+.parent {
+
+    text-align: center;
+  }
+  .child {
+    display: inline-block;
+  }
+

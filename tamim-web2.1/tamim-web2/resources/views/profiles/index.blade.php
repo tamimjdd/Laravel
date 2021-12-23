@@ -4,20 +4,22 @@
 
 <main class="py-4">
     <div class="container">
-        <div class="inline-grid grid-cols-3 gap-4">
-            <div class="p-5">
+        <div class="flex flex-row" >
+            <div class="p-5 " >
                 this is picture
                 {{-- <img src="{{$user->profile->profileImage()}}" class="rounded-circle w-100"> --}}
             </div>
-            <div class="pt-5">
-                <div class="flex-initial justify-between items-baseline">
-                    <div class="flex-initial items-center pb-3">
-                        <div class="h4">{{$user->username}}
-
+            <div class="p-5 ">
+                <div >
+                    <div >
+                        <div class="flex justify-between items-baseline">
+                            <h1 class="text-4xl bold">{{$user->username}}</h1>
+                            <a href="/p/create" >Add New Post</a>
                         </div >
-                        <a href="/p/create">Add New Post</a>
+
                         {{-- <follow-button user-id="{{$user->id}}" follows="{{$follows}}"></follow-button> --}}
                     </div>
+                    <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
                     {{-- @can('update',$user->profile)
                         <a href="#">Add New Post</a>
                     @endcan --}}

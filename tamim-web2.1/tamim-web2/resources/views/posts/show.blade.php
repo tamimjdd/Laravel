@@ -8,7 +8,7 @@
         </h1>
     </div>
     <div class="bg-indigo-300">
-        <img src="{{ asset('images/' . $post->image_path) }}" class="object-cover h-25 w-96">
+        <img src="{{ asset('images/' . $post->image_path) }}" class="object-cover h-25 w-screen">
     </div>
 </div>
 

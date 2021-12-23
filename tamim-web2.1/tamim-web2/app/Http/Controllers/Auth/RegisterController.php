@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\device_verification;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -55,6 +56,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -76,20 +78,31 @@ class RegisterController extends Controller
             $var= $user->auto_increment;
         }
 
-
+        // for device detection
         $device = new device_verification();
 
         $device->usr_id=$var;
         $device->ip_address = \request()->ip();
         $device->reg_id=NULL;
+        //device dection ends
+
+        //for profile data
+        $pro= new Profile();
+        $pro->user_id=$var;
+        $pro->title="default";
+        $pro->description="default";
+        $pro->url="default";
+        //for profile data end
 
         $newuser=User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'username' => $data['username'],
             'password' => Hash::make($data['password']),
         ]);
 
         $device->save();
+        $pro->save();
         return $newuser;
     }
 }

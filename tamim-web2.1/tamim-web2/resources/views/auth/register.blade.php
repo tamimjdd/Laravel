@@ -30,6 +30,23 @@
                     </div>
 
                     <div class="flex flex-wrap">
+                        <label for="username" class="block text-gray-700 text-sm font-bold mb-2 sm:mb-4">
+                            Username:
+                        </label>
+
+                        <input id="username" type="username"
+                            class="form-input w-full @error('username') border-red-500 @enderror" name="username"
+                            value="{{ old('username') }}" required autocomplete="username">
+
+                        @error('username')
+                        <p class="text-red-500 text-xs italic mt-4">
+                            {{ $message }}
+                        </p>
+                        @enderror
+                    </div>
+
+
+                    <div class="flex flex-wrap">
                         <label for="email" class="block text-gray-700 text-sm font-bold mb-2 sm:mb-4">
                             {{ __('E-Mail Address') }}:
                         </label>

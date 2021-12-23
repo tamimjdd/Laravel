@@ -71,7 +71,12 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 
 //profiles routes
+Route::put('/profile/{user}',[\App\Http\Controllers\ProfilesController::class, 'update']);
+
 Route::get('/profile/{user}',[\App\Http\Controllers\ProfilesController::class, 'index']);
+
+Route::get('/profile/{user}/edit',[\App\Http\Controllers\ProfilesController::class, 'edit']);
+
 
 Route::get('/p/create',[\App\Http\Controllers\PostsController::class, 'create']);
 
