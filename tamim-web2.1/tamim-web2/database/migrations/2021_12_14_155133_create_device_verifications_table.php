@@ -14,10 +14,10 @@ class CreateDeviceVerificationsTable extends Migration
     public function up()
     {
         Schema::create('device_verifications', function (Blueprint $table) {
-            $table->unsignedBigInteger('usr_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('ip_address')->nullable();
             $table->integer('reg_id',10)->nullable();
-            $table->foreign('usr_id')
+            $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->OnDelete('cascade');

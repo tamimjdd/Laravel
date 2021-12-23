@@ -45,11 +45,31 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot(){
+        parent::boot();
+
+        static::created(function ($user){
+            $user->profile()->create([
+                'title' => $user->username,
+            ]);
+
+            $user->device()->create([
+                'user_id' => $user->id,
+                'ip_address' => \request()->ip(),
+                'reg_id' => NULL
+            ]);
+        });
+    }
+
     public function posts(){
         return $this->hasMany(Post::class)->orderBy('created_at','DESC');
     }
 
     public function profile(){
         return $this->hasOne(Profile::class);
+    }
+
+    public function device(){
+        return $this->hasOne(device_verification::class);
     }
 }

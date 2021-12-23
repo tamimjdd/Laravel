@@ -70,29 +70,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        $userid= DB::select("SELECT `auto_increment` FROM INFORMATION_SCHEMA.TABLES
-        WHERE table_name = 'users'
-        ");
-        $var =NULL;
-        foreach ($userid as $user) {
-            $var= $user->auto_increment;
-        }
 
-        // for device detection
-        $device = new device_verification();
-
-        $device->usr_id=$var;
-        $device->ip_address = \request()->ip();
-        $device->reg_id=NULL;
-        //device dection ends
-
-        //for profile data
-        $pro= new Profile();
-        $pro->user_id=$var;
-        $pro->title="default";
-        $pro->description="default";
-        $pro->url="default";
-        //for profile data end
 
         $newuser=User::create([
             'name' => $data['name'],
@@ -101,8 +79,6 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $device->save();
-        $pro->save();
         return $newuser;
     }
 }

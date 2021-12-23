@@ -14,12 +14,20 @@
                     <div >
                         <div class="flex justify-between items-baseline">
                             <h1 class="text-4xl bold">{{$user->username}}</h1>
-                            <a href="/p/create" >Add New Post</a>
+                            @can('update',$user->profile)
+                                <a href="/p/create" >Add New Post</a>
+                            @endcan
+
+
+
                         </div >
 
                         {{-- <follow-button user-id="{{$user->id}}" follows="{{$follows}}"></follow-button> --}}
                     </div>
+                    @can('update',$user->profile)
                     <a href="/profile/{{ $user->id }}/edit">Edit Profile</a>
+                    @endcan
+
                     {{-- @can('update',$user->profile)
                         <a href="#">Add New Post</a>
                     @endcan --}}
@@ -28,7 +36,7 @@
                 @can('update',$user->profile)
                     {{-- <a href="/profile/{{$user->id}}/edit">Edit Profile</a> --}}
                 @endcan
-                <div class="d-flex">
+                <div class="d-flex pt-3">
                     <div class="pr-5"><strong>{{ $user->posts->count() }}</strong> posts</div>
                     <div class="pr-5"><strong>12k</strong> followers</div>
                     <div class="pr-5"><strong>11k</strong> following</div>

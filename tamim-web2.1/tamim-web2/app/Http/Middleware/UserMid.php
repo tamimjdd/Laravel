@@ -27,7 +27,7 @@ class UserMid
 
         $ip=\request()->ip();
          //dd("yes");
-        $oldip=DB::select('select ip_address from device_verifications where usr_id = ?', [Auth::id()]);
+        $oldip=DB::select('select ip_address from device_verifications where user_id = ?', [Auth::id()]);
 
         //dd($oldip[0]->ip_address);
 
@@ -35,7 +35,7 @@ class UserMid
             $location= Location::get();
             $rand=rand(0, 99999);
 
-            $flight = device_verification::where('usr_id', Auth::id())->first();
+            $flight = device_verification::where('user_id', Auth::id())->first();
             device_verification::where('usr_id', Auth::id())
             ->update(['reg_id' => $rand]);
 

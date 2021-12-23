@@ -16,4 +16,8 @@ class device_verification extends Model
         'reg_id'
     ];
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
 }
