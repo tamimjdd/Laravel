@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Models\Post;
+use App\Models\Photo;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
 
 class PostsController extends Controller
 {
@@ -26,37 +28,65 @@ class PostsController extends Controller
         $data=request()->validate([
             'title' => 'required',
             'description' => 'required',
-            'image' => 'required|mimes:png,jpg,jpeg|max:5048',
+            'images' => 'required',
+            'images.*' => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
+            'thumbnail' => 'required|mimes:jpg,png,jpeg,gif,svg|max:5048'
         ]);
 
-        $newImageName= uniqid(). '-'. $request->title.'.' .
-        $request->image->extension();
-        //dd($newImageName);
-        //$image2= $request->file('image');
-        //dd($image2);
-        $request->image->move(public_path() . '/images/',$newImageName);
-        //dd("yes");
-        $image=Image::make(public_path() . '/images/'.$newImageName);
-        $image->resize(1200,1200);
-        $image->save();
+         $newImageName= uniqid(). '-'. $request->title.'.' .
+         $request->thumbnail->extension();
+
+         $request->thumbnail->move(public_path() . '/images/',$newImageName);
+
+         $image=Image::make(public_path() . '/images/'.$newImageName);
+         $image->resize(1200,1200);
+         $image->save();
 
         $slug = SlugService::createSlug(Post::class, 'slug',
         $request->title);
-        //dd($slug);
-        auth()->user()->posts()->create([
+
+        $forid=auth()->user()->posts()->create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'slug' => $slug,
-            'image_path' => $newImageName,
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
+            'thumbnail' =>$newImageName
         ]);
+        $Id = $forid->id;
+        //dd($request->file('images'));
+        if ($files = $request->file('images')) {
+
+                 foreach($files as $img) {
+                    $newImageName= uniqid(). '-'. $request->title.'.' .$img->extension();
+                    // Upload Orginal Image
+                    $img->move(public_path() . '/images/', $newImageName);
+                    $image=Image::make(public_path() . '/images/'.$newImageName);
+                    $image->resize(1200,1200);
+                    $image->save();
+                    // Save In Database
+                    $imagemodel= new Photo();
+                    $imagemodel->photo_name="$newImageName";
+                    $imagemodel->post_id= $Id;
+                    $imagemodel->save();
+                }
+
+        }
 
         return redirect('/profile/'.auth()->user()->id);
 
     }
 
     public function show(\App\Models\Post $post){
-        return view('posts.show', compact('post'));
+
+        $photo = DB::table('photos')->where('post_id', $post->id)->get();
+        //dd($photo);
+        // foreach ($photo as $user) {
+        //     echo $user->photo_name;
+        // }
+        return view('posts.show',[
+            'post' => $post,
+            'photo' => $photo,
+        ]);
     }
 
 

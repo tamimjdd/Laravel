@@ -4,18 +4,21 @@
 
 <main class="py-4">
     <div class="container">
-        <div class="flex flex-row" >
+        <div class="lg:flex lg:flex-row md:flex md:flex-row" >
             <div class="p-5 " >
-                this is picture
+
                 {{-- <img src="{{$user->profile->profileImage()}}" class="rounded-circle w-100"> --}}
+                <img src="{{ $user->profile->profileImage()}}" class="rounded-circle w-44">
+
             </div>
             <div class="p-5 ">
                 <div >
                     <div >
                         <div class="flex justify-between items-baseline">
                             <h1 class="text-4xl bold">{{$user->username}}</h1>
+                            <button class="btn btn-primary ml-4">Follow</button>
                             @can('update',$user->profile)
-                                <a href="/p/create" >Add New Post</a>
+                                <a href="/p/create" class="ml-4">Add New Post</a>
                             @endcan
 
 
@@ -55,7 +58,7 @@
             @foreach($user->posts as $post)
                 <div class="pt-4">
                     <a href="/p/{{$post->id}}">
-                        <img src="{{ asset('images/' . $post->image_path) }}" class="w-4/5">
+                        <img src="{{ asset('images/' . $post->thumbnail) }}" class="w-4/5">
                         <div class="h4">{{$post->title}}</div >
                     </a>
                 </div>

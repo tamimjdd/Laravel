@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use App\Models\Post;
+use Illuminate\Support\Facades\DB;
 
 class ProfilesController extends Controller
 {
@@ -48,12 +49,13 @@ class ProfilesController extends Controller
             $image=Image::make(public_path() . '/images/'.$newImageName);
             $image->resize(1200,1200);
             $image->save();
+            $imageArray= ['image' => $newImageName];
         }
 
 
         auth()->user()->profile->update(array_merge(
             $data,
-            ['image' => $newImageName]
+           $imageArray ?? []
         ));
 
         return redirect("/profile/{$user->id}");

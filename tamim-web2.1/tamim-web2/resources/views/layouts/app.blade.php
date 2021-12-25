@@ -15,6 +15,33 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     {{-- <link href="{{ mix('sass/app.scss') }}" rel="stylesheet"> --}}
+    <style>
+        .images-preview-div img
+        {
+        padding: 10px;
+        max-width: 200px;
+        }
+        .preview-image img
+        {
+                padding: 10px;
+                max-width: 100px;
+        }
+
+
+        h2{
+        text-align: center;
+        font-size:22px;
+        margin-bottom:50px;
+    }
+    body{
+        background:#f2f2f2;
+    }
+    .section{
+        margin-top:150px;
+        padding:50px;
+        background:#fff;
+    }
+        </style>
 
 
 </head>

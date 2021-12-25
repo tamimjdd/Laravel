@@ -5,11 +5,8 @@
 @import "tailwindcss/utilities";
 
 
-.parent {
 
-    text-align: center;
-  }
-  .child {
-    display: inline-block;
-  }
-
+.height_width{
+    height: 400px;
+    width: 100%;
+}

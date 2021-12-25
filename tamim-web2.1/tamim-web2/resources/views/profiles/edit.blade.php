@@ -60,7 +60,7 @@
         </div>
 
         <div clss="bg-gray-lighter pt-15">
-            <label class="w-80 flex flex-col items-center px-2 py-3
+            <label class="lg:w-50 sm:w-50 flex flex-col items-center px-2 py-3
             bg-white-rounded-lg shadow-lg tracking-wide border
             border-blue cursor-pointer">
                 <span class="mt-2 text-base leading-normal">

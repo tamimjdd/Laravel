@@ -12,8 +12,5 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .postCss("resources/css/app.css","public/css",[
-        require("tailwindcss")
-    ])
-    .sass('resources/scss/app.scss', 'public/css')
-    .sourceMaps();
+    .vue()
+    .sass('resources/sass/app.scss', 'public/css');
