@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthorizeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\FacebookSocialiteController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\FollowsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\ProfilesController;
 use Illuminate\Http\Request;
@@ -20,9 +21,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\PostsController::class, 'index']);
 //login with google routes
 Route::get('/auth/google', [\App\Http\Controllers\Auth\FacebookSocialiteController::class, 'redirectToFB'])->name('autho');
 Route::get('/callback/google', [\App\Http\Controllers\Auth\FacebookSocialiteController::class, 'handleCallback']);
@@ -71,6 +70,9 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 
 //profiles routes
+
+Route::post('/follow/{user}',[\App\Http\Controllers\FollowsController::class, 'store']);
+
 Route::put('/profile/{user}',[\App\Http\Controllers\ProfilesController::class, 'update']);
 
 Route::get('/profile/{user}',[\App\Http\Controllers\ProfilesController::class, 'index']);

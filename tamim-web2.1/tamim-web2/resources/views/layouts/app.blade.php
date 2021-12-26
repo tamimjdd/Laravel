@@ -14,7 +14,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    {{-- <link href="{{ mix('sass/app.scss') }}" rel="stylesheet"> --}}
+    <link href="{{ asset('sass/app.scss') }}" rel="stylesheet">
     <style>
         .images-preview-div img
         {
@@ -51,7 +51,7 @@
             <div class="container mx-auto flex justify-between items-center px-6">
                 <div>
                     <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline">
-                        {{ config('app.name', 'Laravel') }}
+                        AnyBlog
                     </a>
                 </div>
                 <nav class="space-x-4 text-gray-300 text-sm sm:text-base">
@@ -61,8 +61,9 @@
                             <a class="no-underline hover:underline" href="{{ route('register') }}">{{ __('Register') }}</a>
                         @endif
                     @else
-                        <span>{{ Auth::user()->name }}</span>
-
+                        <a href="/profile/{{ Auth::user()->id }}">
+                            <span>{{ Auth::user()->name }}</span>
+                        </a>
                         <a href="{{ route('logout') }}"
                            class="no-underline hover:underline"
                            onclick="event.preventDefault();

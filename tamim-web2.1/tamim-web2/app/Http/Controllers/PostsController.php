@@ -19,6 +19,22 @@ class PostsController extends Controller
         $this->middleware('usermid');
     }
 
+
+    public function index(){
+        $users= auth()->user()->following()->pluck('profiles.user_id');
+
+        $posts= Post::whereIn('user_id', $users)->latest()->get();
+
+
+
+        return view('posts.index', compact('posts'));
+    }
+
+    public static  function allphoto($post){
+        $photo = DB::table('photos')->where('post_id', $post->id)->get();
+        return $photo;
+    }
+
     public function create(){
         return view('posts.create');
     }
