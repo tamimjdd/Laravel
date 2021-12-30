@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa2149435046e57b54593792e459112d",
+    "content-hash": "f7894d00bad5a20e4c3d6e4c4e2c4521",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3470,6 +3470,49 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "risul/laravel-like-comment",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/risul3/laravel-like-comment.git",
+                "reference": "9b43a7831ea5d4a51a322ee317deb6e4849cc833"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/risul3/laravel-like-comment/zipball/9b43a7831ea5d4a51a322ee317deb6e4849cc833",
+                "reference": "9b43a7831ea5d4a51a322ee317deb6e4849cc833",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "risul\\LaravelLikeComment\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "risul",
+                    "email": "risul321@gmail.com"
+                }
+            ],
+            "description": "Ajax based site wide like and comment system for laravel",
+            "keywords": [
+                "ajax",
+                "comment",
+                "laravel",
+                "like"
+            ],
+            "support": {
+                "issues": "https://github.com/risul3/laravel-like-comment/issues",
+                "source": "https://github.com/risul3/laravel-like-comment/tree/master"
+            },
+            "time": "2019-09-14T12:11:40+00:00"
         },
         {
             "name": "stevebauman/location",

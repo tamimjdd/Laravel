@@ -14,6 +14,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
+        "risul/laravel-like-comment": "^2.0",
         "stevebauman/location": "^6.2",
         "sudiptpa/guid": "^1.0"
     },
