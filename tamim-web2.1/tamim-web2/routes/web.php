@@ -91,7 +91,7 @@ Route::post('/p',[\App\Http\Controllers\PostsController::class, 'store']);
 //like comment routes
 Route::group(['namespace' => 'risul\LaravelLikeComment\Controllers', 'prefix'=>'laravellikecomment', 'middleware' => 'web'], function (){
 	Route::group(['middleware' => 'auth'], function (){
-		Route::get('/like/vote', 'LikeController@vote');
+		Route::get('/like/vote', [\App\Http\Controllers\LikeController::class, 'vote']);
 		Route::get('/comment/add', [\App\Http\Controllers\CommentController::class, 'add']);
         Route::delete('/comment/{id}', [\App\Http\Controllers\CommentController::class, 'delete']);
         Route::put('/edit/{id}', [\App\Http\Controllers\CommentController::class, 'edit']);

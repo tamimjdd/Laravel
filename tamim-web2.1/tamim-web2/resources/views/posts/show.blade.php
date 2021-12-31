@@ -68,8 +68,7 @@
         </a>
         , Created on {{ date('jS M Y', strtotime($post->updated_at)) }},
     </span>
-    <a href="#">Follow</a>
-
+    @include('laravelLikeComment::like', ['like_item_id' => $post->id])
     <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
         {{ $post->description }}
     </p>
@@ -77,6 +76,9 @@
         'comment_item_id' => $post->id,
         'users_id' => $post->user->id,
     ]  ?>
+
+
+
     @include('laravelLikeComment::comment', $data )
 
 </div>

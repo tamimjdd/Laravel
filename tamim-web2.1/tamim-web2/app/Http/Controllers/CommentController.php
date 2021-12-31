@@ -106,6 +106,9 @@ class CommentController extends Controller
     {
 
         $comment= \DB::table('laravellikecomment_comments')->where('id',$id)->delete();
+        $comment2= \DB::table('laravellikecomment_comments')->where('parent_id',$id)->delete();
+        $commentlike=\DB::table('laravellikecomment_total_likes')->where('item_id','comment-'.$id)->delete();
+        $commentlike2=\DB::table('laravellikecomment_likes')->where('item_id','comment-'.$id)->delete();
         return response()->json(['success' => 'deleted']);
     }
 

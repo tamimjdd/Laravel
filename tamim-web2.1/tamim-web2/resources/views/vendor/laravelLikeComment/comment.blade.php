@@ -56,6 +56,7 @@ function dfs($comments, $comment){
                 @endif
             </div>
             {{ \risul\LaravelLikeComment\Controllers\CommentController::viewLike('comment-'.$comment->id) }}
+
             <form id="{{ $comment->id }}-reply-form" class="ui laravelComment-form form" data-parent="{{ $comment->id }}" data-item="{{ $comment->item_id }}" style="display: none;">
                 <div class="field">
                     <textarea id="{{ $comment->id }}-textarea" rows="2" {{ $GLOBALS['commentDisabled'] }}></textarea>
@@ -107,19 +108,28 @@ foreach ($comments as $comment) {
     }
 
     function editComment(id){
+        $.ajax({
+                type: "GET",
+                url: "/laravellikecomment/fetch/"+id,
+                dataType: "json",
+                success: function (response) {
+                    $.each(response.students, function (key, item) {
+                        if(globalData!=null){
+                            console.log(globalData);
+                            $('#'+id+'-edit').hide();
+                        }
 
-            if(globalData!=null){
-                console.log(globalData);
-                $('#'+id+'-edit').hide();
-            }
+                        var comment=item.comment;
+                        //  $("#comment-"+id).toggle();
+                        var newComment = '<div class="flex items-center" id="'+id+'-edit"><textarea id="'+id+'-edit2" rows="2" ></textarea><input type="submit" onclick="updateComment('+id+')" class="ui basic small submit button" value="update"></div>';
+                        $("#comment-"+id).append(newComment);
+                        $('#'+id+'-edit2').val(comment);
+                        $('.'+id+'-editComment').hide();
+                        globalData=id;
+                    });
+                }
+            });
 
-            var comment=$("."+id+"-hiddencomment").val();
-            //  $("#comment-"+id).toggle();
-             var newComment = '<div class="flex items-center" id="'+id+'-edit"><textarea id="'+id+'-edit2" rows="2" ></textarea><input type="submit" onclick="updateComment('+id+')" class="ui basic small submit button" value="update"></div>';
-            $("#comment-"+id).append(newComment);
-            $('#'+id+'-edit2').val(comment);
-            $('.'+id+'-editComment').hide();
-            globalData=id;
     }
         $(document).mouseup(function(e){
             var container = $('#'+globalData+'-edit');
@@ -158,11 +168,33 @@ foreach ($comments as $comment) {
                         datatype: "json",
                         success: function(response2){
                             $.each(response.students, function (key, item) {
-                                console.log(response2);
+                                //console.log(item.comment);
                                 var container = $('#'+globalData+'-edit');
                                 container.remove();
 
-                                var newComment = '<div class="comment" id="comment-'+id+'" style="display: initial;"><input type="hidden" class="'+id+'-hiddencomment" value="'+comment2+'"><a class="avatar"><img src="'+item.avatar+'"></a><div class="content"><a class="author">'+item.name+'</a><div class="metadata"><span class="date">0 second ago</span></div><div class="text">'+comment2+'</div><div class="actions"><a class="reply reply-button" data-toggle="'+id+'-reply-form">Reply</a><a  onclick="deleteComment('+id+')"> Delete</a><a class="'+id+'-editComment" onclick="editComment('+id+')" > Edit</a></div><form class="ui laravelComment-form form" id="'+id+'-reply-form" data-parent="'+id+'" data-item="'+item.item_id+'" style="display: none;"><div class="field"><textarea id="'+id+'-textarea" rows="2"></textarea></div><input type="submit" class="ui basic small submit button" value="Reply"></form></div><div class="ui threaded comments" id="'+item.item_id+'-comment-'+id+'"></div></div>';
+                                var newComment = '<div class="comment" id="comment-'+id+'" style="display: initial;">\
+                                    <input type="hidden" class="'+id+'-hiddencomment" value="'+comment2+'">\
+                                    <a class="avatar"><img src="'+item.avatar+'"></a>\
+                                    <div class="content">\
+                                        <a class="author">'+item.name+'</a>\
+                                        <div class="metadata">\
+                                            <span class="date">0 second ago</span>\
+                                        </div>\
+                                        <div class="text">'+comment2+'</div>\
+                                        <div class="actions">\
+                                            <a class="reply reply-button" data-toggle="'+id+'-reply-form">Reply</a>\
+                                            <a  onclick="deleteComment('+id+')"> Delete</a>\
+                                            <a class="'+id+'-editComment" onclick="editComment('+id+')" > Edit</a>\
+                                        </div>\
+                                        <form class="ui laravelComment-form form" id="'+id+'-reply-form" data-parent="'+id+'" data-item="'+item.item_id+'" style="display: none;">\
+                                            <div class="field">\
+                                                <textarea id="'+id+'-textarea" rows="2"></textarea>\
+                                            </div>\
+                                            <input type="submit" class="ui basic small submit button" value="Reply">\
+                                        </form>\
+                                    </div>\
+                                    <div class="ui threaded comments" id="'+item.item_id+'-comment-'+id+'"></div>\
+                                    </div>';
 
 
                                 jQuery('#comment-'+id).replaceWith(jQuery(newComment));
@@ -176,3 +208,4 @@ foreach ($comments as $comment) {
         }
 
 </script>
+

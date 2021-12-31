@@ -1,9 +1,11 @@
-$('.laravelLike-icon').on('click', function(){
+$(document).on('click', '.laravelLike-icon', function(){
+
   if($(this).hasClass('disabled'))
     return false;
 
   var item_id = $(this).data('item-id');
   var vote = $(this).data('vote');
+
 
   $.ajax({
        method: "get",
@@ -57,7 +59,7 @@ $(document).on('submit', '.laravelComment-form', function(){
       .done(function(msg){
         $(thisForm).toggle('normal');
         var newComment = '<div class="comment" id="comment-'+msg.id+'" style="display: initial;"><a class="avatar"><img src="'+msg.userPic+'"></a><div class="content"><a class="author">'+msg.userName+'</a><div class="metadata"><span class="date">0 second ago</span></div><div class="text">'+msg.comment+'</div><div class="actions"><a class="reply reply-button" data-toggle="'+msg.id+'-reply-form">Reply</a><a  onclick="deleteComment('+msg.id+')"> Delete</a><a class="'+msg.id+'-editComment" onclick="editComment('+msg.id+')" > Edit</a></div><form class="ui laravelComment-form form" id="'+msg.id+'-reply-form" data-parent="'+msg.id+'" data-item="'+item_id+'" style="display: none;"><div class="field"><textarea id="'+msg.id+'-textarea" rows="2"></textarea></div><input type="submit" class="ui basic small submit button" value="Reply"></form></div><div class="ui threaded comments" id="'+item_id+'-comment-'+msg.id+'"></div></div>';
-        $('#'+item_id+'-comment-'+parent).prepend(newComment);
+        $('#'+item_id+'-comment-'+parent).append(newComment);
         $('textarea#'+parent+'-textarea').val('');
       })
       .fail(function(msg){
