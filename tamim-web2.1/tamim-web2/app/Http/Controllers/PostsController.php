@@ -43,7 +43,8 @@ class PostsController extends Controller
 
         $data=request()->validate([
             'title' => 'required',
-            'description' => 'required',
+            'description' => '',
+            'description2' => '',
             'images' => 'required',
             'images.*' => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
             'thumbnail' => 'required|mimes:jpg,png,jpeg,gif,svg|max:5048'
@@ -61,12 +62,23 @@ class PostsController extends Controller
         $slug = SlugService::createSlug(Post::class, 'slug',
         $request->title);
 
+        $editor=null;
+
+        if($request->input('description')==NULL){
+            $description_main=$request->input('description2');
+            $editor=2;
+        }
+        else{
+            $editor=1;
+            $description_main=$request->input('description');
+        }
         $forid=auth()->user()->posts()->create([
             'title' => $request->input('title'),
-            'description' => $request->input('description'),
+            'description' => $description_main,
             'slug' => $slug,
             'user_id' => auth()->user()->id,
-            'thumbnail' =>$newImageName
+            'thumbnail' =>$newImageName,
+            'editor' => $editor,
         ]);
         $Id = $forid->id;
         //dd($request->file('images'));

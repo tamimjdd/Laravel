@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7894d00bad5a20e4c3d6e4c4e2c4521",
+    "content-hash": "8727c81b8b692e651c368c4dec1443ff",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -719,6 +719,54 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "froala/wysiwyg-editor",
+            "version": "v4.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/froala/wysiwyg-editor.git",
+                "reference": "7c9b52e7f340459a930a954ed5e49c74397ff15e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/froala/wysiwyg-editor/zipball/7c9b52e7f340459a930a954ed5e49c74397ff15e",
+                "reference": "7c9b52e7f340459a930a954ed5e49c74397ff15e",
+                "shasum": ""
+            },
+            "type": "component",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Froala Labs",
+                    "email": "support@froala.com"
+                }
+            ],
+            "description": "A beautiful jQuery WYSIWYG HTML rich text editor. High performance and modern design make it easy to use for developers and loved by users.",
+            "homepage": "https://www.froala.com/wysiwyg-editor",
+            "keywords": [
+                "editor",
+                "froala",
+                "froala-editor",
+                "froala-wysiwyg",
+                "html",
+                "javascript",
+                "jquery",
+                "jquery-plugin",
+                "rich editor",
+                "rich text editor",
+                "rte",
+                "text",
+                "wysiwyg"
+            ],
+            "support": {
+                "issues": "https://www.froala.com/wysiwyg-editor/contact",
+                "source": "https://github.com/froala/wysiwyg-editor/tree/v4.0.8"
+            },
+            "time": "2021-12-20T12:15:39+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",

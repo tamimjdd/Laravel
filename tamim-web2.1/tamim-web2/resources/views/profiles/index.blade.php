@@ -54,9 +54,19 @@
             </div>
         </div>
         <hr>
-        <div class="inline-grid grid-cols-3 gap-4">
+        <div class="inline-grid grid-cols-3 gap-4  ">
+
             @foreach($user->posts as $post)
-                <div class="pt-4">
+                <div class="pt-4 relative">
+                    <div class="absolute">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                          </button>
+                          <button class="bg-red-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Delete
+                          </button>
+                    </div>
                     <a href="/p/{{$post->id}}">
                         <img src="{{ asset('images/' . $post->thumbnail) }}" class="w-4/5">
                         <div class="h4">{{$post->title}}</div >
@@ -69,3 +79,4 @@
     </div>
 </main>
 @endsection
+

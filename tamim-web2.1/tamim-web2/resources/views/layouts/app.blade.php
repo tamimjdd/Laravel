@@ -25,7 +25,7 @@
 
 
 
-    <style>
+       <style>
         .images-preview-div img
         {
         padding: 10px;
@@ -51,6 +51,9 @@
         padding:50px;
         background:#fff;
     }
+
+
+
         </style>
 
 
@@ -90,6 +93,8 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
+
+
 
 </body>
 </html>
