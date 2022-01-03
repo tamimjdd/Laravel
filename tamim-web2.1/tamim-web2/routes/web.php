@@ -79,11 +79,24 @@ Route::get('/profile/{user}',[\App\Http\Controllers\ProfilesController::class, '
 
 Route::get('/profile/{user}/edit',[\App\Http\Controllers\ProfilesController::class, 'edit']);
 
+Route::get('/postall/{id}',[\App\Http\Controllers\ProfilesController::class, 'getPost']);
+
 
 Route::get('/p/create',[\App\Http\Controllers\PostsController::class, 'create']);
 
+Route::get('/cntpost/{id}',[\App\Http\Controllers\PostsController::class, 'countpost']);
+
 Route::get('/p/{post}',[\App\Http\Controllers\PostsController::class, 'show']);
 
+Route::get('/p/{post}/edit',[\App\Http\Controllers\PostsController::class, 'edit']);
+
+Route::put('/p/{post}',[\App\Http\Controllers\PostsController::class, 'update']);
+
+Route::get('/post/{id}',[\App\Http\Controllers\PostsController::class, 'allphoto']);
+
+Route::delete('/photo/{id}',[\App\Http\Controllers\PostsController::class, 'deletephoto']);
+
+Route::delete('/postd/{id}', [\App\Http\Controllers\PostsController::class, 'delete']);
 
 Route::post('/p',[\App\Http\Controllers\PostsController::class, 'store']);
 //profiles routes ends

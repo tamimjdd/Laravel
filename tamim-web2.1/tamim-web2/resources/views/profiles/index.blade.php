@@ -40,7 +40,9 @@
                     {{-- <a href="/profile/{{$user->id}}/edit">Edit Profile</a> --}}
                 @endcan
                 <div class="d-flex pt-3">
-                    <div class="pr-5"><strong>{{ $postCount }}</strong> posts</div>
+
+                    <div class="pr-5"><strong id="postcnt2">{{ $postCount }}</strong> posts</div>
+                    <input type="hidden" id="postcnt" value="{{ $postCount }}">
                     <div class="pr-5"><strong>{{ $followersCount }}</strong> followers</div>
                     <div class="pr-5"><strong>{{ $followingCount }}</strong> following</div>
                 </div>
@@ -54,9 +56,11 @@
             </div>
         </div>
         <hr>
-        <div class="inline-grid grid-cols-3 gap-4  ">
+        <input type="hidden" class="hiddenid" value="{{ $user->id }}">
+        <div class="inline-grid grid-cols-3 gap-4  posts_all">
 
-            @foreach($user->posts as $post)
+
+            {{-- @foreach($user->posts as $post)
                 <div class="pt-4 relative">
                     <div class="absolute">
                         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -64,6 +68,7 @@
                             Edit
                           </button>
                           <button class="bg-red-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <i class="far fa-trash-alt"></i>
                             Delete
                           </button>
                     </div>
@@ -72,11 +77,135 @@
                         <div class="h4">{{$post->title}}</div >
                     </a>
                 </div>
-            @endforeach
+            @endforeach --}}
 
+        </div>
+
+
+        <div class="modal fade" id="DeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete Student Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Confirm to Delete Data ?</h4>
+                        <input type="hidden" id="deleteing_id">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="bg-red-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full delete_student">
+                            Confirm
+                          </button><button data-bs-dismiss="modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                            Cancel
+                          </button>
+
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 </main>
 @endsection
+@section('scripts')
+<script type="application/javascript">
+$(document).ready(function () {
+    new FroalaEditor('#forala');
+        fetchstudent();
 
+        function fetchstudent() {
+           var id=$('.hiddenid').val();
+           var id2=$('.hiddenauth').val();
+
+            $.ajax({
+                type: "GET",
+                url: "/postall/"+id,
+                dataType: "json",
+                success: function (response) {
+                    $('.posts_all').html("");
+                    $.each(response.students, function (key, item) {
+
+                        $('.posts_all').prepend(
+                    '<div class="pt-4 relative" id="'+item.id+'-post">\
+                        <div class="absolute">\
+                            @can('update',$user->profile)\
+                            <a href="/p/'+item.id+'/edit">\
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >\
+                                    <i class="fas fa-edit"></i>\
+                                    Edit\
+                                </button>\
+                            </a>\
+                          <button value="'+item.id+'" class="bg-red-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded deletebtn"\
+                            >\
+                            <i class="far fa-trash-alt"></i>\
+                            Delete\
+                          </button>\
+                          @endcan\
+                    </div>\
+                    <a href="/p/'+item.id+'">\
+                        <img src="/images/'+item.thumbnail+'" class="w-4/5">\
+                        <div class="h4">'+item.title+'</div >\
+                    </a>\
+                </div>');
+                    });
+                }
+            });
+        }
+
+        $(document).on('click', '.deletebtn', function () {
+            var stud_id = $(this).val();
+
+            $('#DeleteModal').modal('show');
+            $('#deleteing_id').val(stud_id);
+
+
+        });
+
+        $(document).on('click', '.delete_student', function (e) {
+
+           var posts;
+           var id=$('.hiddenid').val();
+            $.ajax({
+                type: "GET",
+                url: "/cntpost/"+id,
+                dataType: "json",
+                success: function (response) {
+                    posts=response.students;
+                    $('.delete_student').text('Deleting..');
+                    var id = $('#deleteing_id').val();
+                    console.log(posts);
+                    posts--;
+                    $('#postcnt2').text(posts);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: "DELETE",
+                        url: "/postd/" + id,
+                        dataType: "json",
+                        success: function (response) {
+                            // console.log(response);
+                            $('#DeleteModal').modal('hide');
+                            $('.delete_student').text('Confirm');
+                            $('#postcnt2').text(posts);
+
+                            $('#'+id+'-post').remove();
+                        }
+                    });
+
+                }
+            });
+
+
+        });
+
+
+    });
+
+</script>
+
+@endsection

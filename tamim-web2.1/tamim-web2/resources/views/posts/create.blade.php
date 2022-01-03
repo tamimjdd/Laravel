@@ -96,6 +96,7 @@
         <div class="py-15">
             <h1 class="text-6xl">
                 Create Post
+
             </h1>
         </div>
     </div>

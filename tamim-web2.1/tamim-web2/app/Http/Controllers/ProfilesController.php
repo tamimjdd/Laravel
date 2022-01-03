@@ -82,4 +82,14 @@ class ProfilesController extends Controller
 
         return redirect("/profile/{$user->id}");
     }
+
+    public function getPost($id){
+
+        $user= Post::where('user_id',$id)->get();
+        return response()->json([
+            'students'=>$user,
+        ]);
+    }
+
+
 }
