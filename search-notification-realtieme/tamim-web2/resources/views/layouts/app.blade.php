@@ -104,13 +104,20 @@ header {
 
         </style>
 
+<script>
+    window.Laravel={!! json_encode([
+        'csrfToken' => csrf_token(),
+    ]) !!};
+</script>
+
+
 
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none font-sans">
     <div id="app">
-        <header class="bg-blue-900 py-6 header z-10">
+        <header class="bg-blue-900 py-6 header z-10 ">
             <div class="container mx-auto flex justify-between items-center px-6">
-                <div class="flex items-center">
+                <div class="lg:flex items-center">
                     <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline">
                         AnyBlog
                     </a>
@@ -142,29 +149,8 @@ header {
                     <div class="flex">
 
 
-
-                            <div class="dropdown inline-block relative pr-4" id="markasread" onmouseover="markNotificationAsRead('{{ count(auth()->user()->unreadnotifications) }}')">
-                              <button class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded inline-flex items-center">
-                                <span class="mr-1">
-                                    <i class="fas fa-bell"></i>
-                                    Notifications
-                                    <span class="inline-flex items-center
-                                    justify-center px-2 py-1 text-xs font-bold
-                                    leading-none text-red-100 bg-red-600
-                                    rounded-full">{{ count(auth()->user()->unreadnotifications) }}</span>
-                                </span>
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
-                              </button>
-                              <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
-                                <li class="">
-                                    @forelse (auth()->user()->unreadnotifications as $item)
-                                        @include('notifications.show',['notification' =>$item] )
-                                        @empty
-                                        <a href="#">No unread message</a>
-                                    @endforelse
-                                </li>
-                              </ul>
-                            </div>
+                        {{-- Notification --}}
+                           <notification :userid="{{ auth()->id() }}" :unreads="{{ auth()->user()->unreadNotifications }}"></notification>
 
 
 
