@@ -90,7 +90,7 @@
 
 </head>
 <body>
-
+    <div id="app">
     <header class="bg-blue-900 py-6">
         <div class="container mx-auto flex justify-between items-center px-6">
             <div>
@@ -245,6 +245,7 @@
 
                             </form>
                         </div>
+                    </div>
     <script src="{{ asset('/vendor/laravelLikeComment/js/script.js') }}" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js"></script>
 

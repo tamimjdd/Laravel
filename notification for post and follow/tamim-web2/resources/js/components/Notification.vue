@@ -59,9 +59,10 @@ export default{
     },
 
     mounted(){
-        console.log('component mounted.')
-        Echo.private('App.Models.User.' + this.userid)
+        console.log('component mounted.noti')
+        Echo.private('App.Models.User.'+this.userid)
         .notification((notification) => {
+            // console.log(this.userid);
             if(notification.type=="App\\Notifications\\UserFollowed"){
                 let newUnreadNotifications={data:{follower_id:notification.follower_id,
                 follower_name: notification.follower_name},
