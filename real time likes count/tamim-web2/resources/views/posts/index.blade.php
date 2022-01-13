@@ -9,8 +9,10 @@
                 <img src="{{ asset('images/' . $post->thumbnail) }}" class="w-4/5">
                 <div class="flex pt-4">
                     <img src="{{ $post->user->profile->profileImage()}}" class="w-6 rounded-full lg:w-14" alt="">
-
-                    <div class="text-sm lg:text-2xl">{{$post->title}}</div >
+                    <div>
+                        <div class="text-sm lg:text-2xl">{{$post->title}}</div >
+                        <div class="text-sm">{{$post->user->name}}</div >
+                    </div>
                 </div>
             </a>
         </div>

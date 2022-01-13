@@ -10,21 +10,20 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StatusLiked implements ShouldBroadcast
+class likeEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $username;
-
-    public $message;
+    public $n1;
+    public $n2;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($username)
+    public function __construct($n1,$n2)
     {
-        $this->username = $username;
-        $this->message  = "{$username} liked your status";
+        $this->n1=$n1;
+        $this->n2=$n2;
     }
 
     /**
@@ -34,6 +33,6 @@ class StatusLiked implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['status-liked'];
+        return new PrivateChannel('likes');
     }
 }

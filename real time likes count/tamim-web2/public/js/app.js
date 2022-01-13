@@ -5463,6 +5463,123 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/like.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/like.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['like_item_id'],
+  data: function data() {
+    return {
+      data: {},
+      isoutlinelike: "",
+      isdisable: "",
+      isoutlinedislike: "",
+      likes: null,
+      dislikes: null
+    };
+  },
+  methods: {
+    getUser: function getUser() {
+      var _this = this;
+
+      axios.get('/laravellikecomment/likes/' + this.like_item_id).then(function (response) {
+        _this.data = response.data;
+        _this.isoutlinelike = _this.data[_this.like_item_id + 'likeIconOutlined'];
+        _this.isoutlinedislike = _this.data[_this.like_item_id + 'dislikeIconOutlined'];
+        _this.isdisable = _this.data[_this.like_item_id + 'likeDisabled'];
+        _this.likes = _this.data[_this.like_item_id + 'total_like'];
+        _this.dislikes = _this.data[_this.like_item_id + 'total_dislike'];
+      });
+    },
+    increment: function increment() {
+      var _this2 = this;
+
+      axios.get('/laravellikecomment/like/vote', {
+        params: {
+          item_id: this.like_item_id,
+          vote: 1
+        }
+      }).then(function (response) {
+        if (response.data.flag == 1 && _this2.isoutlinelike == "outline") {
+          _this2.isoutlinelike = "";
+          _this2.isoutlinedislike = "outline";
+          _this2.likes = response.data.totalLike;
+          _this2.dislikes = response.data.totalDislike;
+        } else if (response.data.flag == 1 && _this2.isoutlinelike == "") {
+          _this2.isoutlinelike = "outline";
+          _this2.isoutlinedislike = "outline";
+          _this2.likes = response.data.totalLike;
+          _this2.dislikes = response.data.totalDislike;
+        }
+      });
+    },
+    decrement: function decrement() {
+      var _this3 = this;
+
+      axios.get('/laravellikecomment/like/vote', {
+        params: {
+          item_id: this.like_item_id,
+          vote: -1
+        }
+      }).then(function (response) {
+        if (response.data.flag == 1 && _this3.isoutlinedislike == "outline") {
+          _this3.isoutlinelike = "outline";
+          _this3.isoutlinedislike = "";
+          _this3.dislikes = response.data.totalDislike;
+          _this3.likes = response.data.totalLike;
+        } else if (response.data.flag == 1 && _this3.isoutlinedislike == "") {
+          _this3.isoutlinelike = "outline";
+          _this3.isoutlinedislike = "outline";
+          _this3.dislikes = response.data.totalDislike;
+          _this3.likes = response.data.totalLike;
+        }
+      });
+    }
+  },
+  created: function created() {
+    this.getUser();
+  },
+  mounted: function mounted() {
+    var _this4 = this;
+
+    console.log('component mounted2.');
+    Echo["private"]('likes').listen('likeEvent', function (e) {
+      _this4.likes = e.n1;
+      _this4.dislikes = e.n2;
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -5489,6 +5606,7 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 Vue.component('follow-button', (__webpack_require__(/*! ./components/FollowButton.vue */ "./resources/js/components/FollowButton.vue")["default"]));
 Vue.component('notification', (__webpack_require__(/*! ./components/Notification.vue */ "./resources/js/components/Notification.vue")["default"]));
+Vue.component('likes', (__webpack_require__(/*! ./components/like.vue */ "./resources/js/components/like.vue")["default"]));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -34292,6 +34410,45 @@ component.options.__file = "resources/js/components/NotificationItem.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/like.vue":
+/*!******************************************!*\
+  !*** ./resources/js/components/like.vue ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _like_vue_vue_type_template_id_3cffc23c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./like.vue?vue&type=template&id=3cffc23c& */ "./resources/js/components/like.vue?vue&type=template&id=3cffc23c&");
+/* harmony import */ var _like_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./like.vue?vue&type=script&lang=js& */ "./resources/js/components/like.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _like_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _like_vue_vue_type_template_id_3cffc23c___WEBPACK_IMPORTED_MODULE_0__.render,
+  _like_vue_vue_type_template_id_3cffc23c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/like.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/FollowButton.vue?vue&type=script&lang=js&":
 /*!***************************************************************************!*\
   !*** ./resources/js/components/FollowButton.vue?vue&type=script&lang=js& ***!
@@ -34337,6 +34494,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NotificationItem.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationItem.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationItem_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/like.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/like.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_like_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./like.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/like.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_like_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -34387,6 +34560,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationItem_vue_vue_type_template_id_0a631e09___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_NotificationItem_vue_vue_type_template_id_0a631e09___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./NotificationItem.vue?vue&type=template&id=0a631e09& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/NotificationItem.vue?vue&type=template&id=0a631e09&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/like.vue?vue&type=template&id=3cffc23c&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/like.vue?vue&type=template&id=3cffc23c& ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_like_vue_vue_type_template_id_3cffc23c___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_like_vue_vue_type_template_id_3cffc23c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_like_vue_vue_type_template_id_3cffc23c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./like.vue?vue&type=template&id=3cffc23c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/like.vue?vue&type=template&id=3cffc23c&");
 
 
 /***/ }),
@@ -34546,6 +34736,49 @@ var render = function () {
           ]),
         ])
       : _vm._e(),
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/like.vue?vue&type=template&id=3cffc23c&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/like.vue?vue&type=template&id=3cffc23c& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "laravel-like" }, [
+    _c("i", {
+      staticClass: "icon laravelLike-icon thumbs up outline-none",
+      class: { outline: _vm.isoutlinelike, disabled: _vm.isdisable },
+      attrs: { "data-vote": "1" },
+      on: { click: _vm.increment },
+    }),
+    _vm._v(" "),
+    _c("span", [_vm._v(_vm._s(this.likes))]),
+    _vm._v(" "),
+    _c("i", {
+      staticClass: "icon  laravelLike-icon thumbs down outline-none",
+      class: { outline: _vm.isoutlinedislike, disabled: _vm.isdisable },
+      attrs: { "data-vote": "-1" },
+      on: { click: _vm.decrement },
+    }),
+    _vm._v(" "),
+    _c("span", [_vm._v(_vm._s(this.dislikes))]),
   ])
 }
 var staticRenderFns = []

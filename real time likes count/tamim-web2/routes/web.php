@@ -113,6 +113,7 @@ Route::group(['namespace' => 'risul\LaravelLikeComment\Controllers', 'prefix'=>'
         Route::put('/edit/{id}', [\App\Http\Controllers\CommentController::class, 'edit']);
         Route::get('/fetch/{id}', [\App\Http\Controllers\CommentController::class, 'getonecomment']);
         Route::get('/cntcom/{id}', [\App\Http\Controllers\CommentController::class, 'getComments']);
+        Route::get('/likes/{id}', [\App\Http\Controllers\LikeController::class, 'getLikeViewData']);
 	});
 });
 //like comment routes ends

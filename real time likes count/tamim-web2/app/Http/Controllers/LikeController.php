@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use risul\LaravelLikeComment\Models\Like;
 use risul\LaravelLikeComment\Models\TotalLike;
+use App\Events\likeEvent;
 use Auth;
 
 class LikeController extends Controller
@@ -71,7 +72,7 @@ class LikeController extends Controller
 
 		$like->save();		// save like
 		$totalLike->save();	//save total like,dislike
-
+        event(new likeEvent($totalLike->total_like,$totalLike->total_dislike));
     	return response()->json(['flag' => 1, 'vote' => $vote, 'totalLike' => $totalLike->total_like, 'totalDislike' => $totalLike->total_dislike]);
     }
 

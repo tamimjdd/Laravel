@@ -23,6 +23,8 @@ Vue.component('follow-button', require('./components/FollowButton.vue').default)
 
 Vue.component('notification', require('./components/Notification.vue').default);
 
+Vue.component('likes', require('./components/like.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

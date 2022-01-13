@@ -83,7 +83,9 @@
     @endforeach
 
 
-    @include('laravelLikeComment::like', ['like_item_id' => $post->id])
+    {{-- @include('laravelLikeComment::like', ['like_item_id' => $post->id]) --}}
+    <likes :like_item_id="{{ $post->id }}"></likes>
+
     <p class="text-xl text-gray-700 pt-8 pb-10 leading-8 font-light">
         {!! $post->description !!}
     </p>
