@@ -127,25 +127,32 @@ $(document).ready(function () {
                     $.each(response.students, function (key, item) {
 
                         $('.posts_all').prepend(
-                    '<div class="pt-4 relative" id="'+item.id+'-post">\
+                    '<div class="pt-4 relative transition transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:transform-none" id="'+item.id+'-post">\
                         <div class="absolute">\
                             @can('update',$user->profile)\
                             <a href="/p/'+item.id+'/edit">\
-                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >\
+                                <button class="bg-blue-500 hover:bg-blue-700 text-white hidden md:block\
+                                 font-bold py-2 px-4 rounded" >\
                                     <i class="fas fa-edit"></i>\
                                     Edit\
                                 </button>\
+                                <i class="fas fa-edit md:hidden bg-blue-500"></i>\
                             </a>\
-                          <button value="'+item.id+'" class="bg-red-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded deletebtn"\
+                          <button value="'+item.id+'" class="bg-red-700 hover:bg-blue-700 hidden md:block\
+                           text-white font-bold py-2 px-4 rounded deletebtn"\
                             >\
                             <i class="far fa-trash-alt"></i>\
                             Delete\
                           </button>\
+                          <button class="deletebtn md:hidden" value="'+item.id+'">\
+                            <i class="far fa-trash-alt  bg-red-700 " ></i>\
+                          </button>\
                           @endcan\
                     </div>\
                     <a href="/p/'+item.id+'">\
-                        <img src="/images/'+item.thumbnail+'" class="w-4/5">\
-                        <div class="h4">'+item.title+'</div >\
+                        <img src="/images/'+item.thumbnail+'" class="w-4/5\
+                        hover:border-t-4 hover:border-r-4 hover:border-l-4 rounded-md border-indigo-500">\
+                        <div class="h4 line-clamp-1">'+item.title+'</div >\
                     </a>\
                 </div>');
                     });

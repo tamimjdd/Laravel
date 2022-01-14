@@ -32,6 +32,8 @@ class FollowsController extends Controller
 
     public function notifications()
     {
-        return auth()->user()->unreadNotifications()->limit(5)->get()->toArray();
+        $noti=auth()->user()->notifications()->get();
+        // dd($noti);
+        return view('notifications.show', compact('noti'));
     }
 }

@@ -63,8 +63,8 @@ function dfs($comments, $comment){
                     <a class="{{ $comment->id }}-editComment" onclick="editComment({{ $comment->id }})" > Edit</a>
                 @endif
             </div>
-            {{ \risul\LaravelLikeComment\Controllers\CommentController::viewLike('comment-'.$comment->id) }}
-
+            {{-- {{ \risul\LaravelLikeComment\Controllers\CommentController::viewLike('comment-'.$comment->id) }} --}}
+            <likes :like_item_id="'comment-'+{{ $comment->id }}" ></likes>
             <form id="{{ $comment->id }}-reply-form" class="ui laravelComment-form form" data-parent="{{ $comment->id }}" data-item="{{ $comment->item_id }}" style="display: none;">
                 <div class="field">
                     <textarea id="{{ $comment->id }}-textarea" rows="2" {{ $GLOBALS['commentDisabled'] }}></textarea>

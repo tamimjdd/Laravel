@@ -35,7 +35,6 @@
             getUser(){
                 axios.get('/laravellikecomment/likes/'+this.like_item_id)
                      .then((response)=>{
-
                         this.data = response.data
 
                         this.isoutlinelike=this.data[this.like_item_id+'likeIconOutlined']

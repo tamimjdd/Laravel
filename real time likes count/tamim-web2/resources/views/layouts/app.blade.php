@@ -98,10 +98,58 @@ header {
   position: -webkit-sticky;
   top: 0; /* required */
 }
+
 .dropdown:hover .dropdown-menu {
   display: block;
 }
 
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1;}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+.center {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
         </style>
 
 <script>
@@ -116,11 +164,15 @@ header {
 <body class="bg-gray-100 h-screen antialiased leading-none font-sans">
     <div id="app">
         <header class="bg-blue-900 py-6 header z-10 ">
-            <div class="container mx-auto flex justify-between items-center px-6">
-                <div class="lg:flex items-center">
-                    <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center">
+                    <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline hidden md:block">
                         AnyBlog
                     </a>
+                    {{-- <a href="{{ url('/') }}" class="text-lg font-semibold text-gray-100 no-underline">
+                        <i class="fa fa-home md:hidden" style="font-size:36px;color:white"></i>
+                    </a> --}}
+
                     <form action="/search" method="GET" role="search">
                     <div class="pt-2 pl-2 relative mx-auto text-gray-600">
                         <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
@@ -141,12 +193,25 @@ header {
                 </div>
                 <nav class="space-x-4 text-gray-300 text-sm sm:text-base">
                     @guest
-                        <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        @if (Route::has('register'))
-                            <a class="no-underline hover:underline" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        @endif
-                    @else
                     <div class="flex">
+                        <a class="pr-4 no-underline hover:underline hidden md:block" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        @if (Route::has('register'))
+                            <a class="no-underline hover:underline hidden md:block" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        @endif
+                    </div>
+                        <div class="md:hidden">
+                            <div class="dropdown" style="float:right;">
+                                <i class="fas fa-bars dropbtn"></i>
+                                <div class="dropdown-content">
+                                    <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    @if (Route::has('register'))
+                                        <a class="no-underline hover:underline" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    @endif
+                                </div>
+                              </div>
+                        </div>
+                    @else
+                    <div class="flex hidden md:block">
 
 
                         {{-- Notification --}}
@@ -168,10 +233,36 @@ header {
                             {{ csrf_field() }}
                         </form>
                     </div>
+                    <div class="md:hidden">
+                        <div class="dropdown" style="float:right;">
+                            <i class="fas fa-bars dropbtn"></i>
+                            <div class="dropdown-content">
+                                <a href="/profile/{{ Auth::user()->id }}" class="pr-4">
+                                    <span>{{ Auth::user()->name }}</span>
+                                </a>
+                                <a href="{{ route('logout') }}"
+                                class="no-underline hover:underline"
+                                onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                                    {{ csrf_field() }}
+                                </form>
+                            </div>
+                          </div>
+                    </div>
                     @endguest
                 </nav>
             </div>
+            <div class="grid grid-cols-2 gap-4 center flex items-stretch md:hidden place-items-center">
+                <a href="{{ url('/') }}" >
+                    <i class="fa fa-home " style="color:white"></i>
+                </a>
+                <a href="/notifications">
+                    <i class="fas fa-bell" style="color:white"></i>
+                </a>
+            </div>
         </header>
+
 
         @yield('content')
     </div>
@@ -181,6 +272,10 @@ header {
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+
+
     @yield('scripts')
+
+
 </body>
 </html>
