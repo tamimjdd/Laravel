@@ -5321,11 +5321,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['unreads', 'userid', 'noti'],
+  props: ['unreads', 'userid'],
   components: {
     NotificationItem: _NotificationItem_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
@@ -5344,8 +5349,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       unreadNotifications: this.unreads,
-      allnoti: this.noti,
-      date: new Date()
+      allnoti: [],
+      date: new Date(),
+      page: 1
     };
   },
   methods: {
@@ -5354,12 +5360,56 @@ __webpack_require__.r(__webpack_exports__);
         axios.get('/markAsRead');
         this.unreadNotifications.splice(0);
       }
+    },
+    handleLoadMore: function handleLoadMore($state) {
+      var _this = this;
+
+      axios.get('/notifications?page=' + this.page).then(function (response) {
+        //   console.log(response.data.data)
+        $.each(response.data.data, function (key, value) {
+          _this.allnoti.push(value);
+        });
+
+        if (Object.keys(response.data.data).length) {
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      });
+      this.page = this.page + 1;
+    },
+    getNextUser: function getNextUser() {
+      var _this2 = this;
+
+      window.onscroll = function () {
+        var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+
+        if (bottomOfWindow) {
+          axios.get('/notifications?page=' + _this2.page).then(function (response) {
+            console.log("this is working");
+            $.each(response.data.data, function (key, value) {
+              _this2.allnoti.push(value);
+            });
+
+            if (Object.keys(response.data.data).length) {
+              $state.loaded();
+            } else {
+              $state.complete();
+            }
+          });
+          _this2.page = _this2.page + 1;
+        }
+      };
     }
   },
+  beforeMount: function beforeMount() {
+    this.handleLoadMore();
+  },
   mounted: function mounted() {
-    var _this = this;
+    var _this3 = this;
 
-    console.log('component mounted.noti');
+    this.getNextUser();
+    console.log('component mounted.noti-desktop');
     Echo["private"]('App.Models.User.' + this.userid).notification(function (notification) {
       // console.log(this.userid);
       if (notification.type == "App\\Notifications\\UserFollowed") {
@@ -5368,13 +5418,13 @@ __webpack_require__.r(__webpack_exports__);
             follower_id: notification.follower_id,
             follower_name: notification.follower_name
           },
-          created_at: _this.date,
+          created_at: _this3.date,
           type: "App\\Notifications\\UserFollowed"
         };
 
-        _this.unreadNotifications.unshift(newUnreadNotifications);
+        _this3.unreadNotifications.unshift(newUnreadNotifications);
 
-        _this.allnoti.unshift(newUnreadNotifications);
+        _this3.allnoti.unshift(newUnreadNotifications);
       } else if (notification.type == "App\\Notifications\\NewPost") {
         var _newUnreadNotifications = {
           data: {
@@ -5382,13 +5432,13 @@ __webpack_require__.r(__webpack_exports__);
             following_name: notification.following_name,
             post_id: notification.post_id
           },
-          created_at: _this.date,
+          created_at: _this3.date,
           type: 'App\\Notifications\\NewPost'
         };
 
-        _this.unreadNotifications.unshift(_newUnreadNotifications);
+        _this3.unreadNotifications.unshift(_newUnreadNotifications);
 
-        _this.allnoti.unshift(_newUnreadNotifications);
+        _this3.allnoti.unshift(_newUnreadNotifications);
       }
     });
   }
@@ -34812,25 +34862,38 @@ var render = function () {
           : _vm._e(),
       ]),
       _vm._v(" "),
-      _c(
-        "ul",
-        {
-          staticClass:
-            "dropdown-menu absolute hidden text-gray-700 pt-1 overflow-y-auto h-32",
-        },
-        [
-          _c(
-            "li",
-            _vm._l(_vm.allnoti, function (unread) {
-              return _c("notification-item", {
-                key: unread.id,
-                attrs: { unread: unread },
-              })
-            }),
-            1
-          ),
-        ]
-      ),
+      _c("div", [
+        _c(
+          "ul",
+          {
+            staticClass:
+              "dropdown-menu absolute hidden text-gray-700 pt-1 overflow-y-auto h-80",
+          },
+          [
+            _c(
+              "li",
+              [
+                _vm._l(_vm.allnoti, function (unread) {
+                  return _c("notification-item", {
+                    key: unread.id,
+                    attrs: { unread: unread },
+                  })
+                }),
+                _vm._v(" "),
+                _c("infinite-loading", {
+                  on: {
+                    distance: function ($event) {
+                      1
+                    },
+                    infinite: _vm.handleLoadMore,
+                  },
+                }),
+              ],
+              2
+            ),
+          ]
+        ),
+      ]),
     ]
   )
 }

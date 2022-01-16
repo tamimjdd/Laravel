@@ -218,7 +218,7 @@ header {
                         {{-- Notification --}}
                         <notification :userid="{{ auth()->id() }}"
                             :unreads="{{ auth()->user()->unreadNotifications }}"
-                            :noti="{{ auth()->user()->notifications }}"></notification>
+                            ></notification>
 
 
 

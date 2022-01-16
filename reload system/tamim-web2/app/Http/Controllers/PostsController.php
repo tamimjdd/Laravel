@@ -56,7 +56,7 @@ class PostsController extends Controller
     public function store(Request $request){
 
         $data=request()->validate([
-            'title' => 'required',
+            'title' => 'required|max:114',
             'description' => '',
             'description2' => '',
             'images' => 'required',

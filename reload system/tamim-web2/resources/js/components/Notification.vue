@@ -11,13 +11,18 @@
                 </div>
             </span>
 
+        <div>
+            <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 overflow-y-auto h-80">
+                <li>
+                    <!-- {{ allnoti }} -->
+                <notification-item v-for="unread in allnoti" :unread="unread" :key="unread.id"></notification-item>
+                <infinite-loading @distance="1" @infinite="handleLoadMore"></infinite-loading>
+                </li>
 
-        <ul class="dropdown-menu absolute hidden text-gray-700 pt-1 overflow-y-auto h-32">
-            <li>
-               <notification-item v-for="unread in allnoti" :unread="unread" :key="unread.id"></notification-item>
+            </ul>
 
-            </li>
-        </ul>
+        </div>
+
         </div>
 </template>
 
@@ -25,8 +30,9 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import NotificationItem from './NotificationItem.vue';
+
 export default{
-    props:['unreads','userid','noti'],
+    props:['unreads','userid'],
     components:{NotificationItem},
      created() {
             dayjs.extend(relativeTime);
@@ -45,8 +51,9 @@ export default{
     data(){
         return {
             unreadNotifications: this.unreads,
-            allnoti: this.noti,
+            allnoti: [],
             date: new Date(),
+            page: 1,
         }
     },
     methods:{
@@ -55,11 +62,56 @@ export default{
                 axios.get('/markAsRead');
                 this.unreadNotifications.splice(0);
             }
-        }
-    },
+        },
 
+        handleLoadMore($state){
+                axios.get('/notifications?page=' + this.page)
+                     .then((response)=>{
+                        //   console.log(response.data.data)
+                         $.each(response.data.data, (key, value) => {
+                            this.allnoti.push(value);
+                        });
+                         if(Object.keys(response.data.data).length){
+                            $state.loaded();
+                         }
+                         else{
+                             $state.complete();
+                         }
+
+                     });
+                     this.page = this.page + 1;
+            },
+            getNextUser() {
+            window.onscroll = () => {
+                let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+                if (bottomOfWindow) {
+                    axios.get('/notifications?page=' + this.page)
+                     .then((response)=>{
+                          console.log("this is working")
+                         $.each(response.data.data, (key, value) => {
+                            this.allnoti.push(value);
+                        });
+                        if(Object.keys(response.data.data).length){
+                            $state.loaded();
+                         }
+                         else{
+                             $state.complete();
+                         }
+
+                     });
+                     this.page = this.page + 1;
+                }
+            }
+            },
+
+    },
+     beforeMount() {
+        this.handleLoadMore();
+    },
     mounted(){
-        console.log('component mounted.noti')
+        this.getNextUser();
+
+        console.log('component mounted.noti-desktop')
         Echo.private('App.Models.User.'+this.userid)
         .notification((notification) => {
             // console.log(this.userid);
